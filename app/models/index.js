@@ -8,6 +8,8 @@ import User from "./user.model.js";
 import Session from "./session.model.js";
 import Tutorial from "./tutorial.model.js";
 import Lesson from "./lesson.model.js"; 
+import Athlete from "./athlete.model.js";
+import Coach from "./coach.model.js";
 
 
 const db = {};
@@ -18,6 +20,8 @@ db.user = User;
 db.session = Session;
 db.tutorial = Tutorial;
 db.lesson = Lesson;
+db.athlete = Athlete;
+db.coach = Coach;
 
 // foreign key for session
 db.user.hasMany(
@@ -55,4 +59,17 @@ db.lesson.belongsTo(
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
 );
 
+// foreign key for athletes
+db.coach.hasMany(
+  db.athlete,
+  { as: "athlete" },
+  { foreignKey: { name: "coachId", allowNull: true }, onDelete: "SET NULL" }
+);
+db.athlete.belongsTo(
+  db.coach,
+  { as: "coach" },
+  { foreignKey: { name: "coachId", allowNull: true }, onDelete: "SET NULL" }
+);
+
+//module.exports = db;
 export default db;
