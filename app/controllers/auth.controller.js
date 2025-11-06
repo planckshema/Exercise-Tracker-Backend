@@ -83,7 +83,6 @@ exports.login = async (req, res) => {
 
   // this lets us get the user id
   if (user.id === undefined) {
-  
     await User.create(user)
       .then((data) => {
         user = data.dataValues;

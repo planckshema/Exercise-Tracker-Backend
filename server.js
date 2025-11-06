@@ -11,7 +11,7 @@ const app = express();
 
 // Also use the cors middleware as backup
 var corsOptions = {
-  origin: "http://localhost:8081",
+  origin: "http://localhost:8080",
   credentials: true
 }
 app.use(cors(corsOptions));
