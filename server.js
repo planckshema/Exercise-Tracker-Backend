@@ -11,7 +11,7 @@ const app = express();
 
 // Also use the cors middleware as backup
 var corsOptions = {
-  origin: "http://localhost:8081",
+  origin: "http://localhost:8080",
   credentials: true
 }
 app.use(cors(corsOptions));
@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
   
 // Load the routes from the routes folder
-app.use("/tutorial", routes); 
+app.use("/tracker-t8", routes); 
 
 
 // set port, listen for requests
