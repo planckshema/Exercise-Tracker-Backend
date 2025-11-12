@@ -5,7 +5,7 @@ const exports = {};
 // Create and Save a new Athlete
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
+  if (!req.body.firstName || !req.body.email) {
     res.status(400).send({
       message: "Content can not be empty!",
     });
@@ -28,7 +28,7 @@ exports.create = (req, res) => {
   // Save Athlete in the database
   Athlete.create(athlete)
     .then((data) => {
-      res.send(data);
+      res.status(201).send(data);
     })
     .catch((err) => {
       res.status(500).send({
@@ -39,36 +39,45 @@ exports.create = (req, res) => {
 };
 // Retrieve all Athletes from the database.
 exports.findAll = (req, res) => {
-  const athleteId = req.query.athleteId;
-  var condition = athleteId
+  const name = req.query.name;
+ var condition = name
     ? {
-        athleteId: {
-          [Op.like]: `%${athleteId}%`,
-        },
+        [Op.or]: [
+          { firstName: { [Op.like]: `%${name}%` } },
+          { lastName: { [Op.like]: `%${name}%` } },
+        ],
       }
     : null;
-
   Athlete.findAll({ where: condition })
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving athletes.",
+        message:
+          err.message || "Some error occurred while retrieving athletes.",
       });
     });
 };
-// Retrieve all Athletes for a coach from the database.
-exports.findAllForCoach = (req, res) => {
-  const coachId = req.params.coachId;
 
-  Athlete.findAll({ where: { coachId: coachId } })
+// Find a single Athlete with an id
+exports.findAllForUser = (req, res) => {
+  const userId = req.params.userId;
+  Athlete.findAll({ where: { userId: userId } })
     .then((data) => {
-      res.send(data);
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find Athletes for user with id=${userId}.`,
+        });
+      }
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving athletes.",
+        message:
+          err.message ||
+          "Error retrieving Athletes for user with id=" + userId,
       });
     });
 };
@@ -87,35 +96,34 @@ exports.findOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving Athlete with id=" + id,
+        message: err.message || "Error retrieving Athlete with id=" + id,
       });
     });
 };
-// Update a Lesson by the id in the request
+// Update a Athlete by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
-  Lesson.update(req.body, {
+  Athlete.update(req.body, {
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Lesson was updated successfully.",
+          message: "Athlete was updated successfully.",
         });
       } else {
         res.send({
-          message: `Cannot update Lesson with id=${id}. Maybe Lesson was not found or req.body is empty!`,
+          message: `Cannot update Athlete with id=${id}. Maybe Athlete was not found or req.body is empty!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating Lesson with id=" + id,
+        message: err.message || "Error updating Athlete with id=" + id,
       });
     });
 };
-
-// Delete a Athlete from group with the specified id in the request
+// Delete a Athlete with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
   Athlete.destroy({
@@ -134,7 +142,7 @@ exports.delete = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Could not delete Athlete with id=" + id,
+        message: err.message || "Could not delete Athlete with id=" + id,
       });
     });
 };

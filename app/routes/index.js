@@ -15,6 +15,6 @@ router.use("/users", UserRoutes);
 router.use("/tutorials", TutorialRoutes);
 router.use("/tutorials", LessonRoutes);
 router.use("/athletes", AthleteRoutes);
-router.use("/coachs", CoachRoutes);
+router.use("/coaches", CoachRoutes);
 
 export default router;

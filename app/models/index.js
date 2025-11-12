@@ -59,17 +59,33 @@ db.lesson.belongsTo(
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
 );
 
-// foreign key for athletes
-db.coach.hasMany(
-  db.athlete,
-  { as: "athlete" },
-  { foreignKey: { name: "coachId", allowNull: true }, onDelete: "SET NULL" }
-);
-db.athlete.belongsTo(
-  db.coach,
-  { as: "coach" },
-  { foreignKey: { name: "coachId", allowNull: true }, onDelete: "SET NULL" }
-);
+// // foreign key for athletes
+// db.coach.hasMany(
+//   db.athlete,
+//   { as: "athlete" },
+//   { foreignKey: { name: "coachId", allowNull: true }, onDelete: "SET NULL" }
+// );
+// db.athlete.belongsTo(
+//   db.coach,
+//   { as: "coach" },
+//   { foreignKey: { name: "coachId", allowNull: true }, onDelete: "SET NULL" }
+// );
+
+//many to many relationship for coaches and athletes
+db.coach.belongsToMany(db.athlete, {
+  through: "CoachAthletes",
+  as: "athletes",
+  foreignKey: { name: "coachId", allowNull: true }, 
+  onDelete: "SET NULL" 
+});
+
+db.athlete.belongsToMany(db.coach, {
+  through: "CoachAthletes",
+  as: "coaches",
+  foreignKey: { name: "athleteId", allowNull: true }, 
+  onDelete: "SET NULL" 
+});
+
 
 //module.exports = db;
 export default db;
