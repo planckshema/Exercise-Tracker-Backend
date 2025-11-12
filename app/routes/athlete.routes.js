@@ -3,23 +3,22 @@
   import { Router } from "express";
   var router = Router()
 
-  // Create a new Athlete for a Coach
-  router.post("/:coachId/athletes/", [authenticate], athletes.create);
+  // Create a new Athlete
+  router.post("/", [authenticate], athletes.create);
 
-  // Retrieve all Athletes for a Coach
-  router.get(
-    "/:coachId/athletes/",
-    [authenticate],
-    athletes.findAllForCoach
-  );
+  // Retrieve all Coaches
+  router.get("/", [authenticate], athletes.findAll);
+
+  // Retrieve all Coaches for user
+  router.get("/userTut/:userId", [authenticate], athletes.findAllForUser);
 
   // Retrieve a single Athlete with id
-  router.get("/:coachId/athletes/:id", [authenticate], athletes.findOne);
+  router.get("/:id", [authenticate], athletes.findOne);
 
   // Update a Athlete with id
-  router.put("/:coachId/athletes/:id", [authenticate], athletes.update);
+  router.put("/:id", [authenticate], athletes.update);
 
   // Delete a Athlete with id
-  router.delete("/:coachId/athletes/:id", [authenticate], athletes.delete);
+  router.delete("/:id", [authenticate], athletes.delete);
 
 export default router

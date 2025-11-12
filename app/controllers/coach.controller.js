@@ -5,7 +5,7 @@ const exports = {};
 // Create and Save a new Coach
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
+  if (!req.body.firstName || !req.body.email) {
     res.status(400).send({
       message: "Content can not be empty!",
     });
@@ -27,7 +27,7 @@ exports.create = (req, res) => {
   // Save Coach in the database
   Coach.create(coach)
     .then((data) => {
-      res.send(data);
+      res.status(201).send(data);
     })
     .catch((err) => {
       res.status(500).send({
@@ -36,10 +36,10 @@ exports.create = (req, res) => {
       });
     });
 };
-// Retrieve all Coachs from the database.
+// Retrieve all Coaches from the database.
 exports.findAll = (req, res) => {
   const name = req.query.name;
- const condition = name
+ var condition = name
     ? {
         [Op.or]: [
           { firstName: { [Op.like]: `%${name}%` } },
@@ -54,7 +54,7 @@ exports.findAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving coachs.",
+          err.message || "Some error occurred while retrieving coaches.",
       });
     });
 };
@@ -68,7 +68,7 @@ exports.findAllForUser = (req, res) => {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find Coachs for user with id=${userId}.`,
+          message: `Cannot find Coaches for user with id=${userId}.`,
         });
       }
     })
@@ -76,7 +76,7 @@ exports.findAllForUser = (req, res) => {
       res.status(500).send({
         message:
           err.message ||
-          "Error retrieving Coachs for user with id=" + userId,
+          "Error retrieving Coaches for user with id=" + userId,
       });
     });
 };
