@@ -8,6 +8,7 @@ import User from "./user.model.js";
 import Session from "./session.model.js";
 import Tutorial from "./tutorial.model.js";
 import Lesson from "./lesson.model.js"; 
+import CoachAthlete from "./coachAthlete.model.js";
 import Athlete from "./athlete.model.js";
 import Coach from "./coach.model.js";
 
@@ -20,6 +21,7 @@ db.user = User;
 db.session = Session;
 db.tutorial = Tutorial;
 db.lesson = Lesson;
+db.coachAthlete = CoachAthlete;
 db.athlete = Athlete;
 db.coach = Coach;
 
@@ -73,17 +75,17 @@ db.lesson.belongsTo(
 
 //many to many relationship for coaches and athletes
 db.coach.belongsToMany(db.athlete, {
-  through: "CoachAthletes",
+  through: "CoachAthlete",
   as: "athletes",
   foreignKey: { name: "coachId", allowNull: true }, 
-  onDelete: "SET NULL" 
+  onDelete: "CASCADE" 
 });
 
 db.athlete.belongsToMany(db.coach, {
-  through: "CoachAthletes",
+  through: "CoachAthlete",
   as: "coaches",
   foreignKey: { name: "athleteId", allowNull: true }, 
-  onDelete: "SET NULL" 
+  onDelete: "CASCADE" 
 });
 
 
