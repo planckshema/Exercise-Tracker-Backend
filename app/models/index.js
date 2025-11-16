@@ -11,6 +11,8 @@ import Lesson from "./lesson.model.js";
 import CoachAthlete from "./coachAthlete.model.js";
 import Athlete from "./athlete.model.js";
 import Coach from "./coach.model.js";
+import Exercise from "./exercise.model.js";
+import ExerciseCategory from "./exerciseCategory.model.js";
 
 
 const db = {};
@@ -88,6 +90,16 @@ db.athlete.belongsToMany(db.coach, {
   onDelete: "CASCADE" 
 });
 
+// Exercise → Category (FK)
+Exercise.belongsTo(ExerciseCategory, {
+  foreignKey: { name: "categoryId", allowNull: false },
+  onDelete: "CASCADE",
+});
 
+// Category → Exercises (One-to-Many)
+ExerciseCategory.hasMany(Exercise, {
+  foreignKey: { name: "categoryId", allowNull: false },
+  onDelete: "CASCADE",
+});
 //module.exports = db;
 export default db;
