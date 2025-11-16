@@ -5,13 +5,13 @@ const exports = {};
 
 // Create a coach-athlete relationship
 exports.create = (req, res) => {
-  const { coachId, athleteId, sport, status } = req.body;
+  const { coachId, athleteId, sport, status, initiator } = req.body;
 
   if (!coachId || !athleteId) {
     return res.status(400).send({ message: "CoachId and AthleteId are required." });
   }
 
-  CoachAthlete.create({ coachId, athleteId, sport, status })
+  CoachAthlete.create({ coachId, athleteId, sport, status, initiator })
     .then(data => res.status(201).send(data))
     .catch(err => res.status(500).send({ message: err.message }));
 };

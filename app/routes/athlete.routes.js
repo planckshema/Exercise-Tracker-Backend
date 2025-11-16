@@ -10,7 +10,7 @@
   router.get("/", [authenticate], athletes.findAll);
 
   // Retrieve all Coaches for user
-  router.get("/userTut/:userId", [authenticate], athletes.findAllForUser);
+  router.get("/userTut/:email", [authenticate], athletes.findAllForUser);
 
   // Retrieve a single Athlete with id
   router.get("/:id", [authenticate], athletes.findOne);
