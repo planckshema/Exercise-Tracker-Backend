@@ -8,6 +8,11 @@ import SequelizeInstance from "../config/sequelizeInstance.js";
       allowNull: false,
       defaultValue: "pending"
     },
+    initiator: 
+    {
+      type: Sequelize.ENUM("coach", "athlete"),
+      allowNull: false,
+    },
     sport: 
     {
       type: Sequelize.STRING
@@ -37,6 +42,12 @@ import SequelizeInstance from "../config/sequelizeInstance.js";
 }, 
 {
   timestamps: false,
+  indexes: [
+    {
+      unique: true,
+      fields: ["coachId", "athleteId"]
+    }
+  ]
 }
 );
 export default CoachAthlete;
