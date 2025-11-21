@@ -62,14 +62,14 @@ exports.findAll = (req, res) => {
 
 // Find a single Athlete with an id
 exports.findAllForUser = (req, res) => {
-  const userId = req.params.userId;
-  Athlete.findAll({ where: { userId: userId } })
+  const email = req.params.email;
+  Athlete.findAll({ where: { email: email } })
     .then((data) => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find Athletes for user with id=${userId}.`,
+          message: `Cannot find Athletes for user with email=${email}.`,
         });
       }
     })
@@ -77,7 +77,7 @@ exports.findAllForUser = (req, res) => {
       res.status(500).send({
         message:
           err.message ||
-          "Error retrieving Athletes for user with id=" + userId,
+          "Error retrieving Athletes for user with email=" + email,
       });
     });
 };

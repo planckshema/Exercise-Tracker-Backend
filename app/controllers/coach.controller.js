@@ -22,7 +22,6 @@ exports.create = (req, res) => {
     weight: req.body.weight,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
-    userId: req.body.userId,
   };
   // Save Coach in the database
   Coach.create(coach)
@@ -61,14 +60,14 @@ exports.findAll = (req, res) => {
 
 // Find a single Coach with an id
 exports.findAllForUser = (req, res) => {
-  const userId = req.params.userId;
-  Coach.findAll({ where: { userId: userId } })
+  const email = req.params.email;
+  Coach.findAll({ where: { email: email } })
     .then((data) => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find Coaches for user with id=${userId}.`,
+          message: `Cannot find Coaches for user with email=${email}.`,
         });
       }
     })
@@ -76,7 +75,7 @@ exports.findAllForUser = (req, res) => {
       res.status(500).send({
         message:
           err.message ||
-          "Error retrieving Coaches for user with id=" + userId,
+          "Error retrieving Coaches for user with email=" + email,
       });
     });
 };

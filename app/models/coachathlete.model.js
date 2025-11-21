@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
 import SequelizeInstance from "../config/sequelizeInstance.js";
 
-  const Athlete = SequelizeInstance.define("CoachAthlete", {
+  const CoachAthlete = SequelizeInstance.define("CoachAthlete", {
     Status: 
     {
       type: Sequelize.STRING
@@ -12,4 +12,4 @@ import SequelizeInstance from "../config/sequelizeInstance.js";
     },
 }, 
 );
-export default Athlete;
+export default CoachAthlete;
