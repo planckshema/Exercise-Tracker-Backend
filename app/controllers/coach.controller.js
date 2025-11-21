@@ -75,7 +75,7 @@ exports.findAllForUser = (req, res) => {
       res.status(500).send({
         message:
           err.message ||
-          "Error retrieving Coaches for user with email=" + email,
+          `Error retrieving Coaches for user with email=${email}`,
       });
     });
 };
