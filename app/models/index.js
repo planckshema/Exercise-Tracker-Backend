@@ -11,6 +11,10 @@ import Lesson from "./lesson.model.js";
 import CoachAthlete from "./coachAthlete.model.js";
 import Athlete from "./athlete.model.js";
 import Coach from "./coach.model.js";
+import ExerciseCategory from "./exerciseCategory.model.js";
+import Exercise from "./exercise.model.js";
+import WorkoutPlan from "./workoutPlan.model.js";
+import WorkoutPlanExercise from "./workoutPlanExercise.model.js";
 
 
 const db = {};
@@ -24,6 +28,10 @@ db.lesson = Lesson;
 db.coachAthlete = CoachAthlete;
 db.athlete = Athlete;
 db.coach = Coach;
+db.exerciseCategory = ExerciseCategory;
+db.exercise = Exercise;
+db.workoutPlan = WorkoutPlan;
+db.workoutPlanExercise = WorkoutPlanExercise;
 
 // foreign key for session
 db.user.hasMany(
@@ -87,6 +95,65 @@ db.athlete.belongsToMany(db.coach, {
   foreignKey: { name: "athleteId", allowNull: true }, 
   onDelete: "CASCADE" 
 });
+
+
+//Category has many exercises and each exercise belongs to one category
+db.exercise.belongsTo(db.exerciseCategory,
+{
+  foreignKey: { name: "categoryId", allowNull: false },
+  onDelete: "CASCADE"
+});
+
+db.exerciseCategory.hasMany(db.exercise, 
+{
+  foreignKey: { name: "categoryId", allowNull: false }
+});
+
+
+//foreign key for workout plan
+db.workoutPlan.belongsTo(db.user, 
+{
+  foreignKey: { name: "userId", allowNull: false },
+  onDelete: "CASCADE"
+});
+
+db.user.hasMany(db.workoutPlan, 
+{
+  foreignKey: { name: "userId", allowNull: false }
+});
+
+db.workoutPlan.belongsTo(db.athlete, 
+{
+  foreignKey: { name: "athleteId", allowNull: true },
+  onDelete: "CASCADE"
+});
+
+db.workoutPlan.belongsTo(db.coach, 
+{
+  foreignKey: { name: "coachId", allowNull: true },
+  onDelete: "CASCADE"
+});
+
+
+//foreign key for workoutPlanExercise
+db.workoutPlanExercise.belongsTo(db.workoutPlan, {
+  foreignKey: { name: "workoutPlanId", allowNull: false },
+  onDelete: "CASCADE"
+});
+
+db.workoutPlan.hasMany(db.workoutPlanExercise, {
+  foreignKey: { name: "workoutPlanId", allowNull: false }
+});
+
+db.workoutPlanExercise.belongsTo(db.exercise, {
+  foreignKey: { name: "exerciseId", allowNull: false },
+  onDelete: "CASCADE"
+});
+
+db.exercise.hasMany(db.workoutPlanExercise, {
+  foreignKey: { name: "exerciseId", allowNull: false }
+});
+
 
 
 //module.exports = db;

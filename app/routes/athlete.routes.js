@@ -6,7 +6,7 @@
   // Create a new Athlete
   router.post("/", [authenticate], athletes.create);
 
-  // Retrieve all Coaches
+  // Retrieve all Athletes
   router.get("/", [authenticate], athletes.findAll);
 
   // Retrieve all Coaches for user
