@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "name": "Full Body Beginner",
+    "description": "A simple full-body routine for beginners.",
+    "exercises": [
+      { "id": "fb-1", "name": "Bodyweight Squat", "description": "3 sets of 10", "equipment": "None", "duration": 60 },
+      { "id": "fb-2", "name": "Incline Push-up", "description": "3 sets of 8", "equipment": "Bench", "duration": 60 },
+      { "id": "fb-3", "name": "Bent-over Row (band)", "description": "3 sets of 10", "equipment": "Resistance Band", "duration": 60 },
+      { "id": "fb-4", "name": "Plank", "description": "3 sets, hold 30s", "equipment": "None", "duration": 30 }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Upper Body Strength",
+    "description": "Focus on pushing and pulling strength.",
+    "exercises": [
+      { "id": "ub-1", "name": "Push-up", "description": "4 sets of 6-8", "equipment": "None", "duration": 60 },
+      { "id": "ub-2", "name": "Dumbbell Row", "description": "4 sets of 8", "equipment": "Dumbbells", "duration": 60 },
+      { "id": "ub-3", "name": "Shoulder Press", "description": "3 sets of 8", "equipment": "Dumbbells", "duration": 60 }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Quick Cardio",
+    "description": "Short cardio-focused set.",
+    "exercises": [
+      { "id": "qc-1", "name": "Jumping Jacks", "description": "3 sets, 45s", "equipment": "None", "duration": 45 },
+      { "id": "qc-2", "name": "High Knees", "description": "3 sets, 30s", "equipment": "None", "duration": 30 },
+      { "id": "qc-3", "name": "Burpees", "description": "2 sets of 10", "equipment": "None", "duration": 60 }
+    ]
+  }
+]

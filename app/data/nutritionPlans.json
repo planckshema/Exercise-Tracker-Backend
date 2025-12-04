@@ -1,0 +1,33 @@
+[
+  {
+    "id": 1,
+    "name": "Balanced General",
+    "description": "A balanced meal plan focused on whole foods and moderate macros.",
+    "meals": [
+      { "id": "b-1", "time": "Breakfast", "name": "Oatmeal with Berries", "calories": 350, "notes": "Add a scoop of protein powder if desired" },
+      { "id": "b-2", "time": "Lunch", "name": "Grilled Chicken Salad", "calories": 500, "notes": "Mixed greens, quinoa, olive oil" },
+      { "id": "b-3", "time": "Dinner", "name": "Salmon, Sweet Potato, Veggies", "calories": 600, "notes": "High in omega-3s" }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "High Protein",
+    "description": "Protein-forward plan for muscle maintenance and recovery.",
+    "meals": [
+      { "id": "p-1", "time": "Breakfast", "name": "Greek Yogurt Bowl", "calories": 400, "notes": "Add nuts and honey" },
+      { "id": "p-2", "time": "Lunch", "name": "Turkey Wrap with Veggies", "calories": 550, "notes": "Whole-wheat wrap" },
+      { "id": "p-3", "time": "Snack", "name": "Protein Shake", "calories": 200, "notes": "Post-workout" },
+      { "id": "p-4", "time": "Dinner", "name": "Steak, Brown Rice, Broccoli", "calories": 700, "notes": "High protein and iron" }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Calorie-Light",
+    "description": "Lower-calorie plan focused on nutrient density and portion control.",
+    "meals": [
+      { "id": "c-1", "time": "Breakfast", "name": "Green Smoothie", "calories": 250, "notes": "Spinach, banana, almond milk" },
+      { "id": "c-2", "time": "Lunch", "name": "Lentil Soup", "calories": 300, "notes": "Fiber-rich" },
+      { "id": "c-3", "time": "Dinner", "name": "Grilled Veggie Bowl", "calories": 350, "notes": "Light and filling" }
+    ]
+  }
+]

@@ -94,4 +94,69 @@ exports.findCoachesForAthlete = (req, res) => {
     .catch(err => res.status(500).send({ message: err.message }));
 };
 
+// Get pending requests for a coach (athletes requesting to be coached)
+exports.getPendingCoachRequests = (req, res) => {
+  const coachId = req.params.coachId;
+
+  CoachAthlete.findAll({ 
+    where: { 
+      coachId, 
+      status: "pending",
+      initiator: "athlete"
+    } 
+  })
+    .then(data => res.send(data))
+    .catch(err => res.status(500).send({ message: err.message }));
+};
+
+// Get pending requests for an athlete (coaches requesting to coach)
+exports.getPendingAthleteRequests = (req, res) => {
+  const athleteId = req.params.athleteId;
+
+  CoachAthlete.findAll({ 
+    where: { 
+      athleteId, 
+      status: "pending",
+      initiator: "coach"
+    } 
+  })
+    .then(data => res.send(data))
+    .catch(err => res.status(500).send({ message: err.message }));
+};
+
+// Accept a request (update status from pending to accepted)
+exports.acceptRequest = (req, res) => {
+  const { coachId, athleteId } = req.params;
+
+  CoachAthlete.update(
+    { status: "accepted" },
+    { where: { coachId, athleteId, status: "pending" } }
+  )
+    .then(num => {
+      if (num == 1) {
+        res.send({ message: "Request accepted successfully." });
+      } else {
+        res.status(404).send({ message: "Request not found or already processed." });
+      }
+    })
+    .catch(err => res.status(500).send({ message: err.message }));
+};
+
+// Reject a request (delete the relationship)
+exports.rejectRequest = (req, res) => {
+  const { coachId, athleteId } = req.params;
+
+  CoachAthlete.destroy({
+    where: { coachId, athleteId, status: "pending" }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({ message: "Request rejected successfully." });
+      } else {
+        res.status(404).send({ message: "Request not found or already processed." });
+      }
+    })
+    .catch(err => res.status(500).send({ message: err.message }));
+};
+
 export default exports;

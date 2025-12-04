@@ -4,8 +4,12 @@ import express, { json, urlencoded } from "express"
 import cors from "cors";
 
 import db  from "./app/models/index.js";
+import seedExercises from "./app/seeds/seedExercises.js";
 
-db.sequelize.sync();
+db.sequelize.sync().then(() => {
+  console.log("Database synced successfully.");
+  seedExercises();
+});
 
 const app = express();
 

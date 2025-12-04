@@ -87,8 +87,8 @@ exports.login = async (req, res) => {
     await User.create(user)
       .then((data) => {
         user = data.dataValues;
-        res.status(200).send({ message: "User was registered successfully!" });
-        return
+        // Do not send a response here. Let the flow continue so we create a session
+        // and return the full `userInfo` (email, name, token) to the client.
       })
       .catch((err) => {
         res.status(500).send({ message: err.message });
