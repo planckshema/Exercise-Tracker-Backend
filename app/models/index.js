@@ -15,6 +15,7 @@ import ExerciseCategory from "./exerciseCategory.model.js";
 import Exercise from "./exercise.model.js";
 import WorkoutPlan from "./workoutPlan.model.js";
 import WorkoutPlanExercise from "./workoutPlanExercise.model.js";
+import Admin from "./admin.model.js";
 
 
 const db = {};
@@ -25,13 +26,14 @@ db.user = User;
 db.session = Session;
 db.tutorial = Tutorial;
 db.lesson = Lesson;
-db.coachAthlete = CoachAthlete;
 db.athlete = Athlete;
 db.coach = Coach;
 db.exerciseCategory = ExerciseCategory;
 db.exercise = Exercise;
+db.coachAthlete = CoachAthlete;
 db.workoutPlan = WorkoutPlan;
 db.workoutPlanExercise = WorkoutPlanExercise;
+db.admin = Admin;
 
 // foreign key for session
 db.user.hasMany(
@@ -69,19 +71,7 @@ db.lesson.belongsTo(
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
 );
 
-// // foreign key for athletes
-// db.coach.hasMany(
-//   db.athlete,
-//   { as: "athlete" },
-//   { foreignKey: { name: "coachId", allowNull: true }, onDelete: "SET NULL" }
-// );
-// db.athlete.belongsTo(
-//   db.coach,
-//   { as: "coach" },
-//   { foreignKey: { name: "coachId", allowNull: true }, onDelete: "SET NULL" }
-// );
-
-//many to many relationship for coaches and athletes
+//coach and their athletes
 db.coach.belongsToMany(db.athlete, {
   through: "CoachAthlete",
   as: "athletes",
@@ -96,6 +86,15 @@ db.athlete.belongsToMany(db.coach, {
   onDelete: "CASCADE" 
 });
 
+db.coachAthlete.belongsTo(db.coach, {
+  foreignKey: "coachId",
+  as: "coach"
+});
+
+db.coachAthlete.belongsTo(db.athlete, {
+  foreignKey: "athleteId",
+  as: "athlete"
+});
 
 //Category has many exercises and each exercise belongs to one category
 db.exercise.belongsTo(db.exerciseCategory,
@@ -113,24 +112,24 @@ db.exerciseCategory.hasMany(db.exercise,
 //foreign key for workout plan
 db.workoutPlan.belongsTo(db.user, 
 {
-  foreignKey: { name: "userId", allowNull: false },
+  foreignKey: { name: "createdByUserId", allowNull: false },
   onDelete: "CASCADE"
 });
 
 db.user.hasMany(db.workoutPlan, 
 {
-  foreignKey: { name: "userId", allowNull: false }
+  foreignKey: { name: "createdByUserId", allowNull: false }
 });
 
 db.workoutPlan.belongsTo(db.athlete, 
 {
-  foreignKey: { name: "athleteId", allowNull: true },
+  foreignKey: { name: "assignedAthleteId", allowNull: true },
   onDelete: "CASCADE"
 });
 
 db.workoutPlan.belongsTo(db.coach, 
 {
-  foreignKey: { name: "coachId", allowNull: true },
+  foreignKey: { name: "assignedCoachId", allowNull: true },
   onDelete: "CASCADE"
 });
 
@@ -152,6 +151,15 @@ db.workoutPlanExercise.belongsTo(db.exercise, {
 
 db.exercise.hasMany(db.workoutPlanExercise, {
   foreignKey: { name: "exerciseId", allowNull: false }
+});
+
+//admin
+db.admin.belongsTo(db.user, {
+  foreignKey: { name: "userId", allowNull: false },
+  onDelete: "CASCADE"
+});
+db.user.hasOne(db.admin, {
+  foreignKey: { name: "userId", allowNull: false }
 });
 
 

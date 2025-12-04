@@ -10,13 +10,11 @@ import SequelizeInstance from "../config/sequelizeInstance.js";
     {
       type: Sequelize.INTEGER
     },
-    sets: 
-    {
-      type: Sequelize.STRING
+    sets: {
+      type: Sequelize.INTEGER, 
     },
-    reps: 
-    {
-      type: Sequelize.STRING
+    reps: {
+      type: Sequelize.INTEGER, 
     },
     duration: 
     {
@@ -25,6 +23,10 @@ import SequelizeInstance from "../config/sequelizeInstance.js";
     durationUnit:
     {
       type: Sequelize.STRING
+    },
+    isCompleted: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     }
    }, {
   timestamps: false
