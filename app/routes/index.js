@@ -10,6 +10,8 @@ import CoachRoutes from "./coach.routes.js";
 import ExerciseCategoryRoutes from "./exerciseCategory.routes.js";
 import ExerciseRoutes from "./exercise.routes.js";
 import AdminRoutes from "./admin.routes.js";
+import WorkoutPlanRoutes from "./workoutPlan.routes.js";
+import WorkoutPlanExerciseRoutes from "./workoutPlanExercise.routes.js";
 
 
 const router = Router();
@@ -24,5 +26,7 @@ router.use("/coachAthletes", CoachAthleteRoutes);
 router.use("/exerciseCategories", ExerciseCategoryRoutes);
 router.use("/exercises", ExerciseRoutes);
 router.use("/admins", AdminRoutes);
+router.use("/workoutPlans", WorkoutPlanRoutes);
+router.use("/workoutPlanExercises", WorkoutPlanExerciseRoutes);
 
 export default router;

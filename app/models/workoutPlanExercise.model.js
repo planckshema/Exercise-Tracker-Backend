@@ -25,6 +25,10 @@ import SequelizeInstance from "../config/sequelizeInstance.js";
     durationUnit:
     {
       type: Sequelize.STRING
+    },
+    isCompleted: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false
     }
    }, {
   timestamps: false

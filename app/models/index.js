@@ -26,11 +26,11 @@ db.user = User;
 db.session = Session;
 db.tutorial = Tutorial;
 db.lesson = Lesson;
-db.coachAthlete = CoachAthlete;
 db.athlete = Athlete;
 db.coach = Coach;
 db.exerciseCategory = ExerciseCategory;
 db.exercise = Exercise;
+db.coachAthlete = CoachAthlete;
 db.workoutPlan = WorkoutPlan;
 db.workoutPlanExercise = WorkoutPlanExercise;
 db.admin = Admin;
@@ -71,19 +71,7 @@ db.lesson.belongsTo(
   { foreignKey: { allowNull: false }, onDelete: "CASCADE" }
 );
 
-// // foreign key for athletes
-// db.coach.hasMany(
-//   db.athlete,
-//   { as: "athlete" },
-//   { foreignKey: { name: "coachId", allowNull: true }, onDelete: "SET NULL" }
-// );
-// db.athlete.belongsTo(
-//   db.coach,
-//   { as: "coach" },
-//   { foreignKey: { name: "coachId", allowNull: true }, onDelete: "SET NULL" }
-// );
-
-//many to many relationship for coaches and athletes
+//coach and their athletes
 db.coach.belongsToMany(db.athlete, {
   through: "CoachAthlete",
   as: "athletes",
@@ -98,6 +86,15 @@ db.athlete.belongsToMany(db.coach, {
   onDelete: "CASCADE" 
 });
 
+db.coachAthlete.belongsTo(db.coach, {
+  foreignKey: "coachId",
+  as: "coach"
+});
+
+db.coachAthlete.belongsTo(db.athlete, {
+  foreignKey: "athleteId",
+  as: "athlete"
+});
 
 //Category has many exercises and each exercise belongs to one category
 db.exercise.belongsTo(db.exerciseCategory,
