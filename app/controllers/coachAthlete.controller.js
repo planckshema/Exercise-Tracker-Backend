@@ -83,4 +83,17 @@ exports.findCoachesForAthlete = (req, res) => {
     .catch(err => res.status(500).send({ message: err.message }));
 };
 
+// Get all athletes for a coach (any status)
+exports.findAllAthletesForCoach = (req, res) => {
+  const coachId = req.params.coachId;
+
+  CoachAthlete.findAll({
+    where: { coachId },
+    include: [{ model: db.athlete, as: "athlete" }]
+  })
+    .then(data => res.send(data))
+    .catch(err => res.status(500).send({ message: err.message }));
+};
+
+
 export default exports;

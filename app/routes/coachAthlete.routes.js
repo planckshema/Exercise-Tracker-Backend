@@ -13,6 +13,9 @@ router.put("/:coachId/:athleteId", [authenticate], coachAthletes.update);
 // Delete a relationship
 router.delete("/:coachId/:athleteId", [authenticate], coachAthletes.delete);
 
+// Get all athletes for a coach (ANY status)
+router.get("/coach/:coachId/all", authenticate, coachAthletes.findAllAthletesForCoach);
+
 // Get all athletes for a coach
 router.get("/coach/:coachId", [authenticate], coachAthletes.findAthletesForCoach);
 
