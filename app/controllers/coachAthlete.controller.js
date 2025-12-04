@@ -1,5 +1,5 @@
-import db  from "../models/index.js";
-const CoachAthlete  = db.coachAthlete;
+import db from "../models/index.js";
+const CoachAthlete = db.coachAthlete;
 const Op = db.Sequelize.Op;
 const exports = {};
 
@@ -16,7 +16,7 @@ exports.create = (req, res) => {
     .catch(err => res.status(500).send({ message: err.message }));
 };
 
-
+// Find one relationship
 exports.findOne = (req, res) => {
   const { coachId, athleteId } = req.params;
 
@@ -26,68 +26,59 @@ exports.findOne = (req, res) => {
 
   CoachAthlete.findOne({ where: { coachId, athleteId } })
     .then(data => {
-      if (data) {
-        res.send(data);
-      } else {
-        res.status(404).send({ message: "Relationship not found." });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({ message: err.message });
-    });
-};
-
-
-exports.update = (req, res) => {
-  const { coachId, athleteId } = req.params;
-
-  CoachAthlete.update(req.body, {
-    where: { coachId, athleteId }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({ 
-          message: "Relationship updated successfully." });
-      } else {
-        res.status(404).send({ 
-          message: "Relationship not found or no changes made." });
-      }
-    })
-    .catch(err => res.status(500).send({ 
-      message: err.message || "Error updating Coach and Athlete",}));
-};
-
-// Delete the relationship
-exports.delete = (req, res) => {
-  const { coachId, athleteId } = req.params;
-
-  CoachAthlete.destroy({
-    where: { coachId, athleteId }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({ message: "Relationship deleted successfully." });
-      } else {
-        res.status(404).send({ message: "Relationship not found." });
-      }
+      if (data) res.send(data);
+      else res.status(404).send({ message: "Relationship not found." });
     })
     .catch(err => res.status(500).send({ message: err.message }));
 };
 
-// Get all athletes for a coach
+// Update relationship
+exports.update = (req, res) => {
+  const { coachId, athleteId } = req.params;
+
+  CoachAthlete.update(req.body, { where: { coachId, athleteId } })
+    .then(num => {
+      if (num == 1) {
+        res.send({ message: "Relationship updated successfully." });
+      } else {
+        res.status(404).send({ message: "Relationship not found or no changes made." });
+      }
+    })
+    .catch(err => res.status(500).send({ message: err.message || "Error updating Coach and Athlete" }));
+};
+
+// Delete relationship
+exports.delete = (req, res) => {
+  const { coachId, athleteId } = req.params;
+
+  CoachAthlete.destroy({ where: { coachId, athleteId } })
+    .then(num => {
+      if (num == 1) res.send({ message: "Relationship deleted successfully." });
+      else res.status(404).send({ message: "Relationship not found." });
+    })
+    .catch(err => res.status(500).send({ message: err.message }));
+};
+
+// Get all accepted athletes for a coach
 exports.findAthletesForCoach = (req, res) => {
   const coachId = req.params.coachId;
 
-  CoachAthlete.findAll({ where: { coachId } })
+  CoachAthlete.findAll({
+    where: { coachId, status: "accepted" },
+    include: [{ model: db.athlete, as: "athlete" }]
+  })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({ message: err.message }));
 };
 
-// Get all coaches for an athlete
+// Get all accepted coaches for an athlete
 exports.findCoachesForAthlete = (req, res) => {
   const athleteId = req.params.athleteId;
 
-  CoachAthlete.findAll({ where: { athleteId } })
+  CoachAthlete.findAll({
+    where: { athleteId, status: "accepted" },
+    include: [{ model: db.coach, as: "coach" }] 
+  })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({ message: err.message }));
 };
