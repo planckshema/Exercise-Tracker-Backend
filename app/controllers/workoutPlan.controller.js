@@ -1,5 +1,5 @@
 import db  from "../models/index.js";
-const CoachAthlete  = db.coachAthlete;
+const WorkoutPlan  = db.coachAthlete;
 const Op = db.Sequelize.Op;
 const exports = {};
 
@@ -11,7 +11,7 @@ exports.create = (req, res) => {
     return res.status(400).send({ message: "CoachId and AthleteId are required." });
   }
 
-  CoachAthlete.create({ coachId, athleteId, sport, status, initiator })
+  WorkoutPlan.create({ coachId, athleteId, sport, status, initiator })
     .then(data => res.status(201).send(data))
     .catch(err => res.status(500).send({ message: err.message }));
 };
@@ -24,7 +24,7 @@ exports.findOne = (req, res) => {
     return res.status(400).send({ message: "CoachId and AthleteId are required." });
   }
 
-  CoachAthlete.findOne({ where: { coachId, athleteId } })
+  WorkoutPlan.findOne({ where: { coachId, athleteId } })
     .then(data => {
       if (data) {
         res.send(data);
@@ -38,10 +38,12 @@ exports.findOne = (req, res) => {
 };
 
 
+
+// Update sport or status for a coach-athlete pair
 exports.update = (req, res) => {
   const { coachId, athleteId } = req.params;
 
-  CoachAthlete.update(req.body, {
+  WorkoutPlan.update(req.body, {
     where: { coachId, athleteId }
   })
     .then(num => {
@@ -61,7 +63,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const { coachId, athleteId } = req.params;
 
-  CoachAthlete.destroy({
+  WorkoutPlan.destroy({
     where: { coachId, athleteId }
   })
     .then(num => {
@@ -78,7 +80,7 @@ exports.delete = (req, res) => {
 exports.findAthletesForCoach = (req, res) => {
   const coachId = req.params.coachId;
 
-  CoachAthlete.findAll({ where: { coachId } })
+  WorkoutPlan.findAll({ where: { coachId } })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({ message: err.message }));
 };
@@ -87,7 +89,7 @@ exports.findAthletesForCoach = (req, res) => {
 exports.findCoachesForAthlete = (req, res) => {
   const athleteId = req.params.athleteId;
 
-  CoachAthlete.findAll({ where: { athleteId } })
+  WorkoutPlan.findAll({ where: { athleteId } })
     .then(data => res.send(data))
     .catch(err => res.status(500).send({ message: err.message }));
 };
