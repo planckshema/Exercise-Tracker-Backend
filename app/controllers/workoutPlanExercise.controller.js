@@ -100,22 +100,25 @@ exports.delete = async (req, res) => {
   }
 };
 
-// Mark exercise as completed
 exports.markCompleted = async (req, res) => {
   const id = req.params.id;
-
   try {
     const [num] = await WorkoutPlanExercise.update({ isCompleted: true }, { where: { id } });
     if (num === 1) {
+      const exercise = await WorkoutPlanExercise.findByPk(id);
+      const exercises = await WorkoutPlanExercise.findAll({ where: { workoutPlanId: exercise.workoutPlanId } });
+      const allDone = exercises.every(e => e.isCompleted);
+      if (allDone) {
+        await db.workoutPlan.update({ isCompleted: 1 }, { where: { id: exercise.workoutPlanId } });
+      }
       res.send({ message: "Exercise marked as completed." });
     } else {
-      res.status(404).send({ message: `Cannot mark WorkoutPlanExercise with id=${id} as completed. Not found.` });
+      res.status(404).send({ message: `Cannot mark WorkoutPlanExercise with id=${id}. Not found.` });
     }
   } catch (err) {
-    res.status(500).send({
-      message: err.message || "Error marking WorkoutPlanExercise as completed.",
-    });
+    res.status(500).send({ message: err.message || "Error marking WorkoutPlanExercise as completed." });
   }
 };
+
 
 export default exports;
